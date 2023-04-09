@@ -75,7 +75,8 @@ function BasicForm() {
       address1.trim().length === 0 ||
       address2.trim().length === 0 ||
       birthPlace.trim().length === 0 ||
-      MobileNum.trim().length < 10 
+      MobileNum.trim().length < 10 ||
+      new Date(Birthdate) < new Date()
     ) {
       setfromIsValid(true);
     }
@@ -88,7 +89,8 @@ function BasicForm() {
       address1.trim().length > 5 &&
       address2.trim().length > 5 &&
       birthPlace.trim().length > 5 &&
-      MobileNum.trim().length === 10
+      MobileNum.trim().length === 10 &&
+      new Date(Birthdate) < new Date()
     ) {
       setfromIsValid(false);
       if (editIndex !== null) {
@@ -122,7 +124,7 @@ function BasicForm() {
       }
 
       // reset the Value
-
+      setImage(null);
       setFirstName("");
       setLastName("");
       setAddress1("");
@@ -185,11 +187,11 @@ function BasicForm() {
 
             <div>
               {formIsValid && firstName.trim().length <= 0 ? (
-                <p className="text-red-600 mt-[-17px]">
+                <p className="text-red-600  ">
                   First Name is Required
                 </p>
               ) : formIsValid && firstName.trim().length <= 2 ? (
-                <p className="text-red-600 mt-[-17px]">
+                <p className="text-red-600  ">
                   First Name is too short! Please enter at least 2 characters
                 </p>
               ) : (
@@ -206,9 +208,9 @@ function BasicForm() {
               />
             </label>
             {formIsValid && lastName.trim().length <= 0 ? (
-              <p className="text-red-600 mt-[-17px]">Last Name is Required</p>
+              <p className="text-red-600  ">Last Name is Required</p>
             ) : formIsValid && lastName.trim().length <= 2 ? (
-              <p className="text-red-600 mt-[-17px]">
+              <p className="text-red-600  ">
                 Last Name is too short! Please enter at least 2 characters
               </p>
             ) : (
@@ -224,6 +226,15 @@ function BasicForm() {
               value={Birthdate}
               onChange={BirthDateChangeHandler}
             />
+            {formIsValid && (!Birthdate || new Date(Birthdate) > new Date()) ? (
+              <p className="text-red-600  ">
+                {Birthdate
+                  ? "Birth date cannot be in the future"
+                  : "Birth date is required"}
+              </p>
+            ) : (
+              ""
+            )}
           </label>
           <br />
           <label>
@@ -238,9 +249,9 @@ function BasicForm() {
             ></textarea>
           </label>
           {formIsValid && address1.trim().length <= 0 ? (
-            <p className="text-red-600 mt-[-17px]">Address is Required</p>
+            <p className="text-red-600  ">Address is Required</p>
           ) : formIsValid && address1.trim().length <= 5 ? (
-            <p className="text-red-600 mt-[-17px]">
+            <p className="text-red-600  ">
               Address is too short! Please enter at least 5 characters
             </p>
           ) : (
@@ -259,9 +270,9 @@ function BasicForm() {
             ></textarea>
           </label>
           {formIsValid && address2.trim().length <= 0 ? (
-            <p className="text-red-600 mt-[-17px]">Address2 is Required</p>
+            <p className="text-red-600  ">Address2 is Required</p>
           ) : formIsValid && address2.trim().length <= 5 ? (
-            <p className="text-red-600 mt-[-17px]">
+            <p className="text-red-600  ">
               Address is too short! Please enter at least 5 characters
             </p>
           ) : (
@@ -278,9 +289,9 @@ function BasicForm() {
             />
           </label>
           {formIsValid && birthPlace.trim().length <= 0 ? (
-            <p className="text-red-600 mt-[-17px]">Birth Place is Required</p>
+            <p className="text-red-600  ">Birth Place is Required</p>
           ) : formIsValid && birthPlace.trim().length <= 2 ? (
-            <p className="text-red-600 mt-[-17px]">
+            <p className="text-red-600  ">
               Birth Place is too short! Please enter at least 2 characters
             </p>
           ) : (
@@ -297,9 +308,9 @@ function BasicForm() {
             />
           </label>
           {formIsValid && MobileNum.trim().length <= 0 ? (
-            <p className="text-red-600 mt-[-17px]">Mobile Number is Required</p>
+            <p className="text-red-600  ">Mobile Number is Required</p>
           ) : formIsValid && MobileNum.trim().length < 10 ? (
-            <p className="text-red-600 mt-[-17px]">
+            <p className="text-red-600  ">
               Mobile Number is less Than 10
             </p>
           ) : (
