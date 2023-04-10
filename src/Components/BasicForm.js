@@ -13,6 +13,9 @@ function BasicForm() {
   const [birthPlace, setbirthPlace] = useState("");
   const [MobileNum, setMobileNum] = useState("");
 
+  const mobileNumberPattern = /^[0-9]{10}$/;
+  const [mobileNumberIsValid, setMobileNumberIsValid] = useState(true);
+
   const [formIsValid, setfromIsValid] = useState(false);
 
   const [editIndex, setEditIndex] = useState(null);
@@ -63,6 +66,8 @@ function BasicForm() {
 
   const MobileNumChangeHandler = (event) => {
     setMobileNum(event.target.value);
+    const isValid = mobileNumberPattern.test(event.target.value);
+    setMobileNumberIsValid(isValid);
   };
 
   // Submit Handler
@@ -186,10 +191,8 @@ function BasicForm() {
               )} */}
 
             <div>
-              {formIsValid && firstName.trim().length <= 0 ? (
-                <p className="text-red-600  ">
-                  First Name is Required
-                </p>
+              {formIsValid && firstName.trim().length === 0 ? (
+                <p className="text-red-600  ">First Name is Required</p>
               ) : formIsValid && firstName.trim().length <= 2 ? (
                 <p className="text-red-600  ">
                   First Name is too short! Please enter at least 2 characters
@@ -307,15 +310,14 @@ function BasicForm() {
               onChange={MobileNumChangeHandler}
             />
           </label>
-          {formIsValid && MobileNum.trim().length <= 0 ? (
-            <p className="text-red-600  ">Mobile Number is Required</p>
+          {formIsValid && !mobileNumberIsValid ? (
+            <p className="text-red-600">Invalid mobile number format</p>
+          ) : formIsValid && MobileNum.trim().length === 0 ? (
+            <p className="text-red-600">Mobile number is required</p>
           ) : formIsValid && MobileNum.trim().length < 10 ? (
-            <p className="text-red-600  ">
-              Mobile Number is less Than 10
-            </p>
-          ) : (
-            ""
-          )}
+            <p className="text-red-600">Mobile number must be 10 digits</p>
+          ) : null}
+
           <br />
           <button
             className="font-inherit bg-purple-900 text-white border border-purple-900 py-2 px-4 rounded cursor-pointer hover:bg-purple-700"
