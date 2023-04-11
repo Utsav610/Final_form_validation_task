@@ -171,11 +171,19 @@ function BasicForm() {
       <form onSubmit={submitHandler}>
         <div className="w-90 max-w-43rem p-4 rounded-lg bg-white  mx-auto">
           <label htmlFor="Profile_pic">Profile Picture</label>
+          {(Image != ".png" || Image != ".jpg") && (
+            <sub className="text-red-600 bold">
+              Only .jpg or .png Files are uploades
+            </sub>
+          )}
+
           <input
             type="file"
             className="block w-64 py-2 px-4 rounded-md border border-gray-300 max-w-full"
             onChange={imageChangeHandler}
+            accept=".jpg ,.png"
           />
+
           <div>
             <label>First Name:</label>
             <input
@@ -229,7 +237,7 @@ function BasicForm() {
               value={Birthdate}
               onChange={BirthDateChangeHandler}
             />
-            {formIsValid && (!Birthdate || new Date(Birthdate) > new Date()) ? (
+            {formIsValid && (!Birthdate || (new Date(Birthdate) > new Date())) ? (
               <p className="text-red-600  ">
                 {Birthdate
                   ? "Birth date cannot be in the future"
